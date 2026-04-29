@@ -1,0 +1,27 @@
+name: kCombatLog
+description: $description
+version: '${version}'
+
+soft-depend:
+  - PlaceholderAPI
+  - kFriend
+
+main: dev.kwlew.kCombatLog.kCombatLog
+api-version: '26.1.2'
+load: POSTWORLD
+
+authors: [ kwlew ]
+website: kwlew.dev
+
+permissions:
+  kCombatLog.player:
+    description: Default player permissions, is affected by combat logging.
+    default: true
+  kCombatLog.reload:
+    description: Allows player to reload the plugin.
+    default: op
+  kCombatLog.admin:
+    description: Gives player all admin permissions.
+    default: op
+    children:
+      [ kCombatLog.reload ]

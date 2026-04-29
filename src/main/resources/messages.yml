@@ -1,0 +1,11 @@
+
+prefix: "<dark_gray>[<red>kCombatLog<dark_gray>] "
+
+combat:
+  tagged: "<red>You are in combat, do not log out!"
+  expired: "<green>You are no longer in combat!"
+  logged: "<dark_red><player></dark_red> <red>Logged out in combat!</red>"
+  you-logged: "<dark_red>You logged out in combat and <bold>died</bold>! </dark_red>"
+  in-combat: "You cannot use commands in combat!"
+  action-bar: "<red>⚔ Combat: <bold><remaining>s</bold></red>"
+

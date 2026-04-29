@@ -1,0 +1,14 @@
+
+messages:
+  # Sends a chat message if the player logged of in combat.
+  combat-log: true
+  # Shows a message on the action bar with a timer.
+  action-bar: true
+
+combat-log:
+  # If logging during combat is punished
+  enable: true
+  # If you can use commands during combat.
+  commands: false
+  # Amount of time the player stays in combat.
+  delay: 15
