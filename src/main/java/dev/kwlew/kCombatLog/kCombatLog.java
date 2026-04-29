@@ -8,7 +8,7 @@ public final class kCombatLog extends JavaPlugin {
     private long start;
     private Bootstrap bootstrap;
 
-
+    // yay
     @Override
     public void onEnable() {
         start = System.currentTimeMillis();
