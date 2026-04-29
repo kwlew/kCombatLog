@@ -15,14 +15,12 @@ public class DeathListener implements ListenerComponent {
     private final JavaPlugin plugin;
     private final CombatManager combat;
     private final MessageManager messages;
-    private final ConfigManager config;
 
     @Inject
-    public DeathListener(JavaPlugin plugin, CombatManager combat, MessageManager messages, ConfigManager config) {
+    public DeathListener(JavaPlugin plugin, CombatManager combat, MessageManager messages) {
         this.plugin = plugin;
         this.combat = combat;
         this.messages = messages;
-        this.config = config;
     }
 
     @Override
