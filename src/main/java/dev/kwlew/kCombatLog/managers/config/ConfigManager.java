@@ -48,4 +48,8 @@ public class ConfigManager {
     public boolean getCommandsInCombatEnabled() {
         return config.get().getBoolean("combat-log.commands", false);
     }
+
+    public boolean getMobsCombatEnabled() {
+        return config.get().getBoolean("combat-log.enable-entities", false);
+    }
 }

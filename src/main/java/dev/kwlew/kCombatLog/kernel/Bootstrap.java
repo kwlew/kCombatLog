@@ -1,5 +1,6 @@
 package dev.kwlew.kCombatLog.kernel;
 
+import dev.kwlew.kCombatLog.listeners.entities.MobHitPlayerListener;
 import dev.kwlew.kCombatLog.listeners.players.*;
 import dev.kwlew.kCombatLog.managers.MessageManager;
 import dev.kwlew.kCombatLog.managers.bStats;
@@ -55,6 +56,8 @@ public class Bootstrap {
         registry.resolve(CommandListener.class);
         registry.resolve(QuitListener.class);
         registry.resolve(DeathListener.class);
+
+        registry.resolve(MobHitPlayerListener.class);
     }
 
     private void lifecycle(Consumer<LifecycleComponent> action) {

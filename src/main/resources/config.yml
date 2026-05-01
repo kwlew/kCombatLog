@@ -6,8 +6,10 @@ messages:
   action-bar: true
 
 combat-log:
-  # If logging during combat is punished
+  # Turning this to off completely disables the combat part with the players.
   enable: true
+  # Enable combat with mobs. (Useful for a survival server to prevent logging to escape death.)
+  enable-entities: false
   # If you can use commands during combat.
   commands: false
   # Amount of time the player stays in combat.
