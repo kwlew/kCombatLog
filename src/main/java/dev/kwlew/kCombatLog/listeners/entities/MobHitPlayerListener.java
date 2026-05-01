@@ -62,7 +62,7 @@ public class MobHitPlayerListener implements ListenerComponent {
             combat.tag(player);
 
             if (!wasTagged) {
-                messages.send(player, "messages.tagged");
+                messages.send(player, "combat.tagged");
             }
         }
     }
