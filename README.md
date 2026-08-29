@@ -9,6 +9,7 @@ When two players engage in combat, both are tagged for a configurable duration. 
 - Combat tagging on melee and projectile PvP hits
 - Configurable combat duration
 - Optional command blocking while in combat
+- Optional ender-pearl and Riptide blocking while in combat
 - Optional action-bar countdown while tagged
 - Logout punishment (combat log kill)
 - PlaceholderAPI expansion support
@@ -16,7 +17,7 @@ When two players engage in combat, both are tagged for a configurable duration. 
 
 ## Requirements
 
-- Paper API `26.1.2` (as configured in the project)
+- Paper `26.1` through `26.2`
 - Java `25` toolchain
 - Optional: PlaceholderAPI (for placeholders)
 
@@ -37,7 +38,11 @@ messages:
 
 combat-log:
   enable: true
+  enable-entities: false
   commands: false
+  restrictions:
+    block-ender-pearls: false
+    block-riptide: false
   delay: 15
 ```
 
@@ -45,6 +50,8 @@ combat-log:
 - `messages.action-bar`: shows combat timer in the action bar
 - `combat-log.enable`: enables/disables combat-log punishment logic
 - `combat-log.commands`: allows/disallows commands while tagged
+- `combat-log.restrictions.block-ender-pearls`: prevents tagged players from throwing ender pearls when `true`
+- `combat-log.restrictions.block-riptide`: prevents tagged players from using Riptide-enchanted tridents when `true`
 - `combat-log.delay`: combat tag duration in seconds
 
 ## Placeholders (PlaceholderAPI)

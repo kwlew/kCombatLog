@@ -12,5 +12,10 @@ combat-log:
   enable-entities: false
   # If you can use commands during combat.
   commands: false
+  restrictions:
+    # Prevent tagged players from throwing ender pearls.
+    block-ender-pearls: false
+    # Prevent tagged players from using Riptide-enchanted tridents.
+    block-riptide: false
   # Amount of time the player stays in combat.
   delay: 15

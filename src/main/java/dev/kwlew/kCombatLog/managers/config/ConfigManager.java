@@ -49,6 +49,14 @@ public class ConfigManager {
         return config.get().getBoolean("combat-log.commands", false);
     }
 
+    public boolean getEnderPearlsBlockedInCombat() {
+        return config.get().getBoolean("combat-log.restrictions.block-ender-pearls", false);
+    }
+
+    public boolean getRiptideBlockedInCombat() {
+        return config.get().getBoolean("combat-log.restrictions.block-riptide", false);
+    }
+
     public boolean getMobsCombatEnabled() {
         return config.get().getBoolean("combat-log.enable-entities", false);
     }

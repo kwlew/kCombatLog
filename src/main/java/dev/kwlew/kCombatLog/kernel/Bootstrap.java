@@ -54,6 +54,7 @@ public class Bootstrap {
         registry.resolve(JoinListener.class);
         registry.resolve(PlayerHitListener.class);
         registry.resolve(CommandListener.class);
+        registry.resolve(CombatRestrictionListener.class);
         registry.resolve(QuitListener.class);
         registry.resolve(DeathListener.class);
 

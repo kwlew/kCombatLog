@@ -11,7 +11,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
+    // Compile against the oldest supported release so the resulting JAR also
+    // remains binary-compatible with newer 26.x Paper servers.
+    compileOnly("io.papermc.paper:paper-api:26.1.1.build.+")
     compileOnly("me.clip:placeholderapi:2.12.2")
     implementation("org.bstats:bstats-bukkit:3.2.1")
 }
@@ -22,7 +24,7 @@ java {
 
 tasks {
     runServer {
-        minecraftVersion("26.1.2")
+        minecraftVersion("26.2")
         jvmArgs("-Xms2G", "-Xmx2G")
     }
 

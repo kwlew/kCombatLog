@@ -39,7 +39,7 @@ public class QuitListener implements ListenerComponent {
                     messages.placeholder("player", player.getName())
             );
             combat.CombatLog(player);
-            player.kill();
+            player.setHealth(0.0);
             combat.remove(player);
         }
     }
