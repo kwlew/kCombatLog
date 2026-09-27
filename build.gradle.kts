@@ -24,7 +24,7 @@ java {
 
 tasks {
     runServer {
-        minecraftVersion("26.2")
+        minecraftVersion("26.3")
         jvmArgs("-Xms2G", "-Xmx2G")
     }
 

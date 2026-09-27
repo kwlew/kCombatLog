@@ -18,4 +18,4 @@ combat-log:
     # Prevent tagged players from using Riptide-enchanted tridents.
     block-riptide: false
   # Amount of time the player stays in combat.
-  delay: 15
+  delay: 10

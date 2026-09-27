@@ -1,5 +1,5 @@
 
-prefix: "<dark_gray>[<red>kCombatLog<dark_gray>] "
+prefix: "<dark_gray>[<red>CombatLog<dark_gray>] "
 
 combat:
   tagged: "<red>You are in combat, do not log out!"
