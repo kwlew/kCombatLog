@@ -8,23 +8,36 @@ repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.extendedclip.com/releases/")
+    maven("https://maven.enginehub.org/repo/")
 }
 
 dependencies {
-    // Compile against the oldest supported release so the resulting JAR also
-    // remains binary-compatible with newer 26.x Paper servers.
-    compileOnly("io.papermc.paper:paper-api:26.1.1.build.+")
+    // Compile against the oldest supported release (1.20.6) so the resulting JAR also
+    // remains binary-compatible with newer Paper servers up to 26.x.
+    compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.12.2")
+    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9") {
+        isTransitive = false
+    }
+    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.15") {
+        isTransitive = false
+    }
+    compileOnly("com.sk89q.worldedit:worldedit-core:7.2.15") {
+        isTransitive = false
+    }
+    compileOnly("com.sk89q.worldguard:worldguard-core:7.0.9") {
+        isTransitive = false
+    }
     implementation("org.bstats:bstats-bukkit:3.2.1")
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(25)
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 
 tasks {
     runServer {
-        minecraftVersion("26.3")
+        minecraftVersion(providers.gradleProperty("mcVersion").getOrElse("1.21.4"))
         jvmArgs("-Xms2G", "-Xmx2G")
     }
 

@@ -1,12 +1,15 @@
 package dev.kwlew.kCombatLog.kernel;
 
+import dev.kwlew.kCombatLog.commands.CombatLogCommand;
 import dev.kwlew.kCombatLog.listeners.entities.MobHitPlayerListener;
 import dev.kwlew.kCombatLog.listeners.players.*;
 import dev.kwlew.kCombatLog.managers.MessageManager;
 import dev.kwlew.kCombatLog.managers.bStats;
 import dev.kwlew.kCombatLog.managers.config.ConfigManager;
 import dev.kwlew.kCombatLog.managers.cooldown.CombatManager;
+import dev.kwlew.kCombatLog.managers.display.BossBarManager;
 import dev.kwlew.kCombatLog.managers.hooks.PlaceholderAPIHook;
+import dev.kwlew.kCombatLog.managers.hooks.WorldGuardHook;
 import dev.kwlew.kCombatLog.managers.permission.PermissionManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,12 +23,15 @@ public class Bootstrap {
     public Bootstrap(JavaPlugin plugin) {
         registry.register(JavaPlugin.class, plugin);
         registry.register(Registry.class, registry);
+        registry.register(Bootstrap.class, this);
 
         initManagers();
 
         initHooks();
 
         initListeners();
+
+        initCommands();
     }
 
     public void init() {
@@ -37,16 +43,22 @@ public class Bootstrap {
         lifecycle(LifecycleComponent::shutdown);
     }
 
+    public void reload() {
+        lifecycle(LifecycleComponent::reload);
+    }
+
     private void initManagers() {
         registry.resolve(MessageManager.class);
         registry.resolve(ConfigManager.class);
 
         registry.resolve(CombatManager.class);
+        registry.resolve(BossBarManager.class);
         registry.resolve(PermissionManager.class);
     }
 
     private void initHooks() {
         registry.resolve(PlaceholderAPIHook.class);
+        registry.resolve(WorldGuardHook.class);
         registry.resolve(bStats.class);
     }
 
@@ -59,6 +71,10 @@ public class Bootstrap {
         registry.resolve(DeathListener.class);
 
         registry.resolve(MobHitPlayerListener.class);
+    }
+
+    private void initCommands() {
+        registry.resolve(CombatLogCommand.class);
     }
 
     private void lifecycle(Consumer<LifecycleComponent> action) {

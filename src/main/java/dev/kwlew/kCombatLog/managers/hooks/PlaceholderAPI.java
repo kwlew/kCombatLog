@@ -3,6 +3,8 @@ package dev.kwlew.kCombatLog.managers.hooks;
 import dev.kwlew.kCombatLog.managers.BuildInfo;
 import dev.kwlew.kCombatLog.managers.cooldown.CombatManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,7 +54,25 @@ public class PlaceholderAPI extends PlaceholderExpansion {
             return String.valueOf(remainingSeconds);
         }
 
+        if (params.equalsIgnoreCase("opponent")) {
+            Entity opponent = getActiveOpponent(player);
+            return opponent == null ? "" : opponent.getName();
+        }
+
+        if (params.equalsIgnoreCase("opponent_health")) {
+            if (getActiveOpponent(player) instanceof LivingEntity living) {
+                return String.format(Locale.ROOT, "%.1f", living.getHealth());
+            }
+            return "";
+        }
+
         return null;
+    }
+
+    private Entity getActiveOpponent(Player player) {
+        if (!combatManager.isTagged(player)) return null;
+
+        return combatManager.getOpponent(player);
     }
 
 }

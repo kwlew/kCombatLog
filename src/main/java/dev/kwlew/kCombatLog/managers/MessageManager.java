@@ -1,8 +1,13 @@
 package dev.kwlew.kCombatLog.managers;
+import dev.kwlew.kCombatLog.kernel.LifecycleComponent;
+import net.kyori.adventure.key.InvalidKeyException;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.title.Title;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,9 +15,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Manages all player-facing messages and notifications for the kMoney plugin.
+ * Manages all player-facing messages and notifications for the kCombatLog plugin.
  * This manager provides:
  * - MiniMessage text formatting (colors, decorations, styles)
  * - Automatic prefix prepending to messages
@@ -28,6 +39,8 @@ import java.io.File;
  * - getRaw(path) / getRaw(path, resolvers) - Returns Component without prefix
  * - send(...) - Sends message to player or CommandSender
  * - sendActionBar(...) - Sends message to player's action bar
+ * - sendTitle(...) - Shows a title and subtitle to a player
+ * - playSound(...) - Plays a sound to a player by key
  * - broadcast(...) - Broadcasts message to all players
  * FORMATTING:
  * MiniMessage uses tags for formatting:
@@ -47,10 +60,11 @@ import java.io.File;
  *
  * @see <a href="https://docs.advntr.dev/minimessage/format.html">MiniMessage Format</a>
  */
-public class MessageManager {
+public class MessageManager implements LifecycleComponent {
 
     private final JavaPlugin plugin;
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
+    private final Set<String> invalidSounds = new HashSet<>();
     private Component prefixComponent;
 
     private FileConfiguration config;
@@ -81,6 +95,7 @@ public class MessageManager {
         }
 
         config = YamlConfiguration.loadConfiguration(file);
+        applyDefaults();
 
         String prefix = config.getString("prefix", "");
         prefixComponent = miniMessage.deserialize(prefix);
@@ -90,8 +105,22 @@ public class MessageManager {
      * Reloads messages from disk.
      * Useful for /reload commands to update messages without restart.
      */
+    @Override
     public void reload() {
         load();
+    }
+
+    private void applyDefaults() {
+        InputStream stream = plugin.getResource("messages.yml");
+        if (stream == null) return;
+
+        try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
+            config.setDefaults(YamlConfiguration.loadConfiguration(reader));
+            config.options().copyDefaults(true);
+            config.save(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // ======================
@@ -136,6 +165,45 @@ public class MessageManager {
      */
     public void sendActionBar(Player player, String path, TagResolver... resolvers) {
         player.sendActionBar(get(path, resolvers));
+    }
+
+    // ======================
+    // TITLE
+    // ======================
+
+    /**
+     * Shows a title and subtitle to a player.
+     * Titles do not have the prefix prepended.
+     *
+     * @param player the player to show the title to
+     * @param titlePath the message path of the title in config
+     * @param subtitlePath the message path of the subtitle in config
+     */
+    public void sendTitle(Player player, String titlePath, String subtitlePath) {
+        player.showTitle(Title.title(getRaw(titlePath), getRaw(subtitlePath)));
+    }
+
+    // ======================
+    // SOUND
+    // ======================
+
+    /**
+     * Plays a sound to a player.
+     * Does nothing if the key is empty, and warns once if the key is invalid.
+     *
+     * @param player the player to play the sound to
+     * @param key the sound key (e.g., "minecraft:block.note_block.pling")
+     */
+    public void playSound(Player player, String key) {
+        if (key == null || key.isBlank()) return;
+
+        try {
+            player.playSound(Sound.sound(Key.key(key), Sound.Source.MASTER, 1f, 1f));
+        } catch (InvalidKeyException e) {
+            if (invalidSounds.add(key)) {
+                plugin.getLogger().warning("Invalid sound key in config: " + key);
+            }
+        }
     }
 
     // ======================

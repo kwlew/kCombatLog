@@ -2,9 +2,9 @@ package dev.kwlew.kCombatLog.listeners.players;
 
 import dev.kwlew.kCombatLog.kernel.Inject;
 import dev.kwlew.kCombatLog.listeners.ListenerComponent;
-import dev.kwlew.kCombatLog.managers.MessageManager;
 import dev.kwlew.kCombatLog.managers.config.ConfigManager;
 import dev.kwlew.kCombatLog.managers.cooldown.CombatManager;
+import dev.kwlew.kCombatLog.managers.display.BossBarManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -14,13 +14,13 @@ public class DeathListener implements ListenerComponent {
 
     private final JavaPlugin plugin;
     private final CombatManager combat;
-    private final MessageManager messages;
+    private final BossBarManager bossBars;
 
     @Inject
-    public DeathListener(JavaPlugin plugin, CombatManager combat, MessageManager messages) {
+    public DeathListener(JavaPlugin plugin, CombatManager combat, BossBarManager bossBars) {
         this.plugin = plugin;
         this.combat = combat;
-        this.messages = messages;
+        this.bossBars = bossBars;
     }
 
     @Override
@@ -39,7 +39,8 @@ public class DeathListener implements ListenerComponent {
 
         if (combat.isTagged(player)) {
             combat.remove(player);
-            messages.send(player, "combat.expired");
+            bossBars.hide(player);
+            combat.sendExpired(player);
         }
     }
 }

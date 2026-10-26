@@ -1,21 +1,59 @@
+# Sends the update notice to admins when they join.
+update-notice: true
 
 messages:
   # Sends a chat message if the player logged of in combat.
   combat-log: true
   # Shows a message on the action bar with a timer.
   action-bar: true
+  # Shows a boss bar with the remaining combat time.
+  boss-bar: false
 
 combat-log:
   # Turning this to off completely disables the combat part with the players.
   enable: true
   # Enable combat with mobs. (Useful for a survival server to prevent logging to escape death.)
   enable-entities: false
-  # If you can use commands during combat.
-  commands: false
+  # Worlds where combat tagging is disabled.
+  disabled-worlds: []
+  command-blocking:
+    # Block commands while in combat.
+    enabled: true
+    # whitelist = only listed commands are allowed; blacklist = only listed commands are blocked.
+    mode: whitelist
+    # Commands this applies to (without the slash).
+    list:
+      - msg
+      - r
+      - tell
   restrictions:
     # Prevent tagged players from throwing ender pearls.
     block-ender-pearls: false
     # Prevent tagged players from using Riptide-enchanted tridents.
     block-riptide: false
+    # Seconds of ender pearl cooldown applied after a tagged player throws one (0 to disable).
+    ender-pearl-cooldown: 0
+    # Prevent tagged players from gliding with an elytra.
+    block-elytra: false
+    # Prevent tagged survival/adventure players from flying.
+    block-flight: false
   # Amount of time the player stays in combat.
   delay: 10
+
+effects:
+  # Sound played when entering combat (empty to disable).
+  tag-sound: "minecraft:entity.experience_orb.pickup"
+  # Sound played when leaving combat (empty to disable).
+  untag-sound: "minecraft:block.note_block.pling"
+  # Shows a title when entering combat.
+  titles: false
+
+punishment:
+  # Kill the player when they log out in combat.
+  kill: true
+  # Drop the player's inventory on logout (only used when kill is false).
+  drop-inventory: false
+  # Commands run from the console on logout, <player> is replaced with the player's name.
+  commands: []
+  # Don't punish players who were kicked.
+  exempt-kicks: true
